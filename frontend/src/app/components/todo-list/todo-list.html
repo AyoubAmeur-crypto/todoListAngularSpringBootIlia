@@ -1,0 +1,108 @@
+<div class="todo-board">
+  <!-- Add Todo Input -->
+  <div class="add-todo-section">
+    <input 
+      type="text" 
+      [(ngModel)]="newTitle" 
+      (keyup.enter)="addTodo()" 
+      placeholder="Add a new task..."
+      class="todo-input"
+    />
+    <button (click)="addTodo()" class="add-button">Add Task</button>
+  </div>
+
+  <!-- Three Column Layout -->
+  <div class="board-columns">
+    
+    <!-- To Do Column -->
+    <div class="column">
+      <div class="column-header todo-header">
+        <h3>To Do</h3>
+        <span class="count">{{ todoList.length }}</span>
+      </div>
+      <div 
+        cdkDropList
+        #todoDropList="cdkDropList"
+        [cdkDropListData]="todoList"
+        [cdkDropListConnectedTo]="[inProgressDropList, doneDropList]"
+        (cdkDropListDropped)="drop($event, 'todo')"
+        class="task-list"
+      >
+        <div 
+          *ngFor="let todo of todoList" 
+          cdkDrag
+          class="task-item"
+        >
+          <div class="task-content">
+            <span class="task-title">{{ todo.title }}</span>
+            <button (click)="delete(todo, todoList)" class="delete-btn">×</button>
+          </div>
+        </div>
+        <div *ngIf="todoList.length === 0" class="empty-state">
+          No tasks yet
+        </div>
+      </div>
+    </div>
+
+    <!-- In Progress Column -->
+    <div class="column">
+      <div class="column-header progress-header">
+        <h3>In Progress</h3>
+        <span class="count">{{ inProgressList.length }}</span>
+      </div>
+      <div 
+        cdkDropList
+        #inProgressDropList="cdkDropList"
+        [cdkDropListData]="inProgressList"
+        [cdkDropListConnectedTo]="[todoDropList, doneDropList]"
+        (cdkDropListDropped)="drop($event, 'inProgress')"
+        class="task-list"
+      >
+        <div 
+          *ngFor="let todo of inProgressList" 
+          cdkDrag
+          class="task-item"
+        >
+          <div class="task-content">
+            <span class="task-title">{{ todo.title }}</span>
+            <button (click)="delete(todo, inProgressList)" class="delete-btn">×</button>
+          </div>
+        </div>
+        <div *ngIf="inProgressList.length === 0" class="empty-state">
+          No tasks in progress
+        </div>
+      </div>
+    </div>
+
+    <!-- Done Column -->
+    <div class="column">
+      <div class="column-header done-header">
+        <h3>Done</h3>
+        <span class="count">{{ doneList.length }}</span>
+      </div>
+      <div 
+        cdkDropList
+        #doneDropList="cdkDropList"
+        [cdkDropListData]="doneList"
+        [cdkDropListConnectedTo]="[todoDropList, inProgressDropList]"
+        (cdkDropListDropped)="drop($event, 'done')"
+        class="task-list"
+      >
+        <div 
+          *ngFor="let todo of doneList" 
+          cdkDrag
+          class="task-item completed"
+        >
+          <div class="task-content">
+            <span class="task-title">{{ todo.title }}</span>
+            <button (click)="delete(todo, doneList)" class="delete-btn">×</button>
+          </div>
+        </div>
+        <div *ngIf="doneList.length === 0" class="empty-state">
+          No completed tasks
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

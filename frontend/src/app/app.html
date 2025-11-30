@@ -1,0 +1,12 @@
+<div class="container">
+  <!-- Header -->
+  <header>
+    <h1>📋 Task Board - Drag & Drop</h1>
+    <button mat-icon-button (click)="toggleTheme()">
+      <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+  </header>
+
+  <!-- Todo List Component with Drag & Drop Columns -->
+  <app-todo-list></app-todo-list>
+</div>
